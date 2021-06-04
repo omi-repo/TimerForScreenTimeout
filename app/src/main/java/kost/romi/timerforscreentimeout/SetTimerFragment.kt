@@ -12,49 +12,59 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import kost.romi.timerforscreentimeout.databinding.FragmentSetTimerBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 
 /**
  *
  */
-class SetTimerFragment : Fragment() {
+class SetTimerFragment : Fragment(R.layout.fragment_set_timer) {
 
-    private var mDevicePolicyManager: DevicePolicyManager? = null
+    var tempFlag =
+        false  // flag so lockNow wont run everytime the app started back up through the lifecycle.
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_set_timer, container, false)
-    }
+    private var setTimerFragmentBinding: FragmentSetTimerBinding? = null
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mDevicePolicyManager =
-            context.getSystemService(Activity.DEVICE_POLICY_SERVICE) as DevicePolicyManager
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    override fun onDetach() {
-        mDevicePolicyManager = null
-        super.onDetach()
+        val binding = FragmentSetTimerBinding.bind(requireView())
+        setTimerFragmentBinding = binding
+
+        setTimerFragmentBinding?.numberPicker?.minValue = 1
+        setTimerFragmentBinding?.numberPicker?.maxValue = 60
+
+        setTimerFragmentBinding?.numberPicker?.setOnValueChangedListener { picker, oldVal, newVal ->
+            Toast.makeText(
+                requireContext(),
+                "${picker.value}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
     }
 
     override fun onStart() {
         super.onStart()
 
-        lifecycleScope.launch { screenTimeout() }
+//        lifecycleScope.launch { screenTimeout() }
 
+//        if (tempFlag != true) {
+//            var policy =
+//                requireActivity().getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager?
+//            policy!!.lockNow()
+//            tempFlag = true
+//        }
     }
 
     suspend fun screenTimeout() {
         delay(5000L)
-//        val manager =
-//            requireActivity().getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
         val pm = requireActivity().getSystemService(Context.POWER_SERVICE) as PowerManager?
         if (pm!!.isScreenOn) {
             val policy =
