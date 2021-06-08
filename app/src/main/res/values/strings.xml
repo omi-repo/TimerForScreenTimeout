@@ -8,5 +8,6 @@
     <string name="timer_controller_play">play</string>
     <string name="timer_controller_pause">pause</string>
     <string name="timer_controller_stop">stop</string>
+    <string name="stop_reset">STOP/RESET</string>
 
 </resources>

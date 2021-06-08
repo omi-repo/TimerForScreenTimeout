@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
                 // This app is set up as the device owner. Show the main features.
                 Timber.i("The app is the device owner.")
-                Toast.makeText(this, "The app is the device owner.", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "The app is the device owner.", Toast.LENGTH_SHORT).show()
 
                 // Placeholder for fragment
                 val navHostFragment = supportFragmentManager.findFragmentById(
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
                 // This app is not set up as the device owner. Show instructions.
                 Timber.i("The app is not the device owner.")
-                Toast.makeText(this, "The app is not the device owner.", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "The app is not the device owner.", Toast.LENGTH_SHORT).show()
 
                 var devicePolicyManager =
                     getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
