@@ -10,7 +10,7 @@ class MyDeviceAdminReceiver : DeviceAdminReceiver() {
 
     override fun onEnabled(context: Context, intent: Intent) {
         super.onEnabled(context, intent)
-//        Toast.makeText(context, "Admin is enabled", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Device admin enabled", Toast.LENGTH_SHORT).show()
         Timber.d("class MyDeviceAdminReceiver : DeviceAdminReceiver() { : Admin is enabled")
     }
 

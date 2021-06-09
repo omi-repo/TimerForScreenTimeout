@@ -1,8 +1,8 @@
 package kost.romi.timerforscreentimeout.data
 
 data class CurrTime(
-    var lastTime: Int = 0,
-    var currentTime: Int = 0,
+    var lastTime: Long = 0,
+    var currentTime: Long = 20000,
     var state: TimerState = TimerState.READY
 )
 
