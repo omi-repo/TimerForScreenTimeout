@@ -133,7 +133,9 @@ class SetTimerFragment : Fragment() {
         binding!!.numberPicker.visibility = View.VISIBLE
 
         viewModel.timerState!!.currentTime = millisOnPaused
-        viewModel.timerState!!.state = TimerState.STOPPED
+        if (viewModel.timerState!!.state != TimerState.FINISH) {
+            viewModel.timerState!!.state = TimerState.STOPPED
+        }
         viewModel.saveTimerToDB()
         viewModel.setupTimer()
 
@@ -186,6 +188,7 @@ class SetTimerFragment : Fragment() {
                 policy = null
                 binding?.startPauseFab?.setImageResource(R.drawable.ic_baseline_play_arrow_24)
                 binding?.countdownTextview?.text = "00 : 000"
+                viewModel.timerState!!.state = TimerState.FINISH
             }
         }
     }

@@ -16,5 +16,6 @@ enum class TimerState {
     STARTED,
     PAUSED,
     RESUME,
-    STOPPED
+    STOPPED,
+    FINISH
 }

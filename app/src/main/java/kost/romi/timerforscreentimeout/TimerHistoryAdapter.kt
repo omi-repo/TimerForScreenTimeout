@@ -28,7 +28,7 @@ class TimerHistoryAdapter() :
         fun bind(timerEntity: TimerEntity) {
             dateTimerAt_textview.text =
                 Date(timerEntity.dateTimerAt).let {
-                    SimpleDateFormat("dd.MM.yyyy / HH:mm").format(it)
+                    SimpleDateFormat("dd-MM-yyyy / HH:mm").format(it)
                 }
                     .toString()
             timerTextViewString(timerEntity.currentTime.toString(), currentTime_textview)
