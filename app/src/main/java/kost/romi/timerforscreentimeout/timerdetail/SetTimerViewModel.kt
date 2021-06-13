@@ -1,22 +1,53 @@
 package kost.romi.timerforscreentimeout.timerdetail
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.room.Room
 import kost.romi.timerforscreentimeout.data.CurrTime
+import kost.romi.timerforscreentimeout.data.TimerEntity
 import kost.romi.timerforscreentimeout.data.TimerState
+import kost.romi.timerforscreentimeout.data.source.local.TimerDAO
+import kost.romi.timerforscreentimeout.data.source.local.TimerDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
 
-class SetTimerViewModel : ViewModel() {
+/**
+ * ViewModel for SetTimerFragment.
+ */
+class SetTimerViewModel(val database: TimerDAO, application: Application) :
+    AndroidViewModel(application) {
 
-    var timerState: MutableLiveData<CurrTime> = MutableLiveData()
-
-    init {
-        timerState.value = CurrTime()
-    }
+    var timerState: CurrTime = CurrTime()
 
     fun setupTimer() {
-        timerState.value!!.lastTime = 0
-        timerState.value!!.currentTime = 0
-        timerState.value!!.state = TimerState.READY
+        timerState!!.dateTimerAt = 0
+        timerState!!.currentTime = 0
+        timerState!!.pausedAt = 0
+        timerState!!.state = TimerState.READY
+    }
+
+    fun saveTimerToDB() {
+        viewModelScope.launch {
+            savetoDB(
+                TimerEntity(
+                    System.currentTimeMillis(),
+                    timerState!!.currentTime,
+                    timerState!!.pausedAt,
+                    timerState!!.startAt,
+                    timerState!!.state
+                )
+            )
+        }
+    }
+
+    suspend fun savetoDB(timerEntity: TimerEntity) {
+        withContext(Dispatchers.IO) {
+            database.insertTimerToHistory(timerEntity)
+        }
     }
 
 }

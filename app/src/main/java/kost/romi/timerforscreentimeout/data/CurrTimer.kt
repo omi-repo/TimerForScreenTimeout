@@ -1,8 +1,13 @@
 package kost.romi.timerforscreentimeout.data
 
+/**
+ * For temp variables in SetTimerFragment.
+ */
 data class CurrTime(
-    var lastTime: Long = 0,
-    var currentTime: Long = 20000,
+    var dateTimerAt: Long = 0,
+    var currentTime: Long = 0,
+    var pausedAt: Long = 0,
+    var startAt: Long = 0,
     var state: TimerState = TimerState.READY
 )
 
@@ -11,5 +16,5 @@ enum class TimerState {
     STARTED,
     PAUSED,
     RESUME,
-    STOPED
+    STOPPED
 }

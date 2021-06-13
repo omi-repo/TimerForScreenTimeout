@@ -8,6 +8,19 @@
     <fragment
         android:id="@+id/setTimerFragment"
         android:name="kost.romi.timerforscreentimeout.timerdetail.SetTimerFragment"
-        android:label="fragment_set_timer"
-        tools:layout="@layout/fragment_set_timer" />
+        android:label="Timer"
+        tools:layout="@layout/fragment_set_timer" >
+        <action
+            android:id="@+id/action_setTimerFragment_to_timerHistoryFragment"
+            app:destination="@id/timerHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/timerHistoryFragment"
+        android:name="kost.romi.timerforscreentimeout.timerhistory.TimerHistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_timer_history" >
+        <action
+            android:id="@+id/action_timerHistoryFragment_to_setTimerFragment"
+            app:destination="@id/setTimerFragment" />
+    </fragment>
 </navigation>
