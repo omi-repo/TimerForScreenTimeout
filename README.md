@@ -6,6 +6,10 @@ Timer for Screen Timeout is an Android app for for locking phone by counting dow
 
 The app is a demo app for using the latest API in 2021 in order to complete the app.
 
+## Images
+
+|||
+
 ## Libraries Used
 
  - [ConstraintLayout] - ConstraintLayout allows you to create large and complex layouts with a flat view hierarchy (no nested view groups).
