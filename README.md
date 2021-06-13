@@ -8,7 +8,7 @@ The app is a demo app for using the latest API in 2021 in order to complete the 
 
 ## Images
 
-|||
+|![1](https://github.com/omi-repo/TimerForScreenTimeout/blob/master/Screenshot_1623618548.png?raw=true)|![2](https://github.com/omi-repo/TimerForScreenTimeout/blob/master/Screenshot_1623618556.png?raw=true)|[3](https://github.com/omi-repo/TimerForScreenTimeout/blob/master/Screenshot_1623618565.png?raw=true)|
 
 ## Libraries Used
 
