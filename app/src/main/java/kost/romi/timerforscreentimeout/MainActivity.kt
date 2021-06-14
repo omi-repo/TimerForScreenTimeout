@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         val navController: NavController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration.Builder().build()
         setupActionBarWithNavController(navController, appBarConfiguration)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
 
         // Placeholder for fragment
         val navHostFragment = supportFragmentManager.findFragmentById(

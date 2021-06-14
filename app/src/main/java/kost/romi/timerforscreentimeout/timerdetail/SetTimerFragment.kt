@@ -13,6 +13,7 @@ import kost.romi.timerforscreentimeout.R
 import kost.romi.timerforscreentimeout.data.TimerState
 import kost.romi.timerforscreentimeout.data.source.local.TimerDatabase
 import kost.romi.timerforscreentimeout.databinding.FragmentSetTimerBinding
+import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 import java.util.*
 

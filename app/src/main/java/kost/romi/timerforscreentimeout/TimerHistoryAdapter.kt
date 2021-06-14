@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ class TimerHistoryAdapter() :
         private val startAt_textview: TextView = itemView.findViewById(R.id.startAt_textview)
         private val state_textview: TextView = itemView.findViewById(R.id.state_textview)
         private val id_textview: TextView = itemView.findViewById(R.id.id_textview)
+        private val cardView: CardView = itemView.findViewById(R.id.cardview)
 
         fun bind(timerEntity: TimerEntity) {
             dateTimerAt_textview.text =
@@ -36,6 +38,8 @@ class TimerHistoryAdapter() :
             timerTextViewString(timerEntity.startAt.toString(), startAt_textview)
             state_textview.text = timerEntity.state.toString()
             id_textview.text = timerEntity.id.toString()
+
+            cardView.elevation = (16).toFloat()
         }
 
         fun timerTextViewString(str: String, textView: TextView) {
