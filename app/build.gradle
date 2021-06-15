@@ -90,4 +90,7 @@ dependencies {
 
     // CardView
     implementation "androidx.cardview:cardview:1.0.0"
+
+    // debugImplementation because LeakCanary should only run in debug builds.
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 }

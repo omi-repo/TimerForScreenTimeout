@@ -21,6 +21,7 @@
         tools:layout="@layout/fragment_timer_history" >
         <action
             android:id="@+id/action_timerHistoryFragment_to_setTimerFragment"
-            app:destination="@id/setTimerFragment" />
+            app:destination="@id/setTimerFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 </navigation>

@@ -37,19 +37,6 @@ abstract class TimerDatabase : RoomDatabase() {
                 return instance
             }
 
-            // if the INSTANCE is not null, then return it,
-            // if it is, then create the database
-//            return INSTANCE ?: synchronized(this) {
-//                val instance = Room.databaseBuilder(
-//                    context.applicationContext,
-//                    TimerDatabase::class.java,
-//                    DATABASE_NAME
-//                ).build()
-//                INSTANCE = instance
-//                // return instance
-//                return instance
-//            }
-
         }
     }
 }
