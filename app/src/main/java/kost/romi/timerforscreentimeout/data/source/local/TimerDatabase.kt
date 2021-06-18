@@ -36,7 +36,8 @@ abstract class TimerDatabase : RoomDatabase() {
                 }
                 return instance
             }
-
         }
+
     }
+
 }

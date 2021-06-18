@@ -206,6 +206,10 @@ class SetTimerFragment : Fragment() {
 
     var policy = null
 
+    /**
+     * A function to lock the screen.
+     * For testing, sometimes it's not called.
+     */
     fun lockScreenNow() {
         var policy =
             requireActivity()!!.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager?
