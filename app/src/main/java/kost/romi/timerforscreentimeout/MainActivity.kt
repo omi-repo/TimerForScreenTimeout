@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.room.Room
+import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.data.source.local.TimerDatabase
 import timber.log.Timber
 import timber.log.Timber.DebugTree
@@ -26,6 +27,10 @@ import timber.log.Timber.DebugTree
  * - ViewModel Factory.
  * - Admin request Intent.
  */
+
+/* Once Hilt is set up in your Application class and an application-level component is available,
+ Hilt can provide dependencies to other Android classes that have the @AndroidEntryPoint annotation. */
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     // Interaction with the DevicePolicyManager
