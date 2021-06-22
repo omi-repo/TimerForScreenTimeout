@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kost.romi.timerforscreentimeout.data.TimerEntity
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,25 +34,31 @@ class TimerHistoryAdapter() :
                     SimpleDateFormat("dd-MM-yyyy / HH:mm").format(it)
                 }
                     .toString()
-            timerTextViewString(timerEntity.currentTime.toString(), currentTime_textview)
-            timerTextViewString(timerEntity.pausedAt.toString(), pausedAt_textview)
-            timerTextViewString(timerEntity.startAt.toString(), startAt_textview)
+            timerTextViewString(timerEntity.currentTime, currentTime_textview)
+            timerTextViewString(timerEntity.pausedAt, pausedAt_textview)
+            timerTextViewString(timerEntity.startAt, startAt_textview)
             state_textview.text = timerEntity.state.toString()
             id_textview.text = timerEntity.id.toString()
 
             cardView.elevation = (16).toFloat()
         }
 
-        fun timerTextViewString(str: String, textView: TextView) {
-            when (str.length) {
-                5 -> textView.text =
-                    "${str.substring(0, 2)} : ${str.substring(2)}"
-                4 -> textView.text =
-                    "0${str.get(0)} : ${str.substring(1)}"
-                3 -> textView.text = "00 : $str"
-                2 -> textView.text = "00 : 0${str}"
-                1 -> textView.text = "00 : 00${str}"
-            }
+        fun timerTextViewString(long: Long, textView: TextView) {
+//            when (str.length) {
+//                5 -> textView.text =
+//                    "${str.substring(0, 2)} : ${str.substring(2)}"
+//                4 -> textView.text =
+//                    "0${str.get(0)} : ${str.substring(1)}"
+//                3 -> textView.text = "00 : $str"
+//                2 -> textView.text = "00 : 0${str}"
+//                1 -> textView.text = "00 : 00${str}"
+//            }
+            var f = DecimalFormat("00")
+            var minutes = (long / 60000) % 60
+            var seconds = (long / 1000) % 60
+            var milis = long % 1000
+            textView.text =
+                "${f.format(minutes)} : ${f.format(seconds)} : ${f.format(milis)}"
         }
     }
 

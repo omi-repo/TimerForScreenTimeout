@@ -43,14 +43,27 @@
         <!--        </com.google.android.material.appbar.AppBarLayout>-->
 
         <NumberPicker
-            android:id="@+id/number_picker"
+            android:id="@+id/minutes_number_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="2"
+            android:scaleY="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/seconds_number_picker"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <NumberPicker
+            android:id="@+id/seconds_number_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleX="2"
             android:scaleY="2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/minutes_number_picker"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
