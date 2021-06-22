@@ -1,25 +1,24 @@
 package kost.romi.timerforscreentimeout.timerdetail
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Room
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kost.romi.timerforscreentimeout.data.CurrTime
+import kost.romi.timerforscreentimeout.data.TimerDataRepository
 import kost.romi.timerforscreentimeout.data.TimerEntity
 import kost.romi.timerforscreentimeout.data.TimerState
-import kost.romi.timerforscreentimeout.data.source.local.TimerDAO
-import kost.romi.timerforscreentimeout.data.source.local.TimerDatabase
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.*
+import javax.inject.Inject
 
 /**
  * ViewModel for SetTimerFragment.
  */
-class SetTimerViewModel(val database: TimerDAO, application: Application) :
-    AndroidViewModel(application) {
+@HiltViewModel
+class SetTimerViewModel @Inject internal constructor(
+    savedStateHandle: SavedStateHandle,
+    private val timerDataRepository: TimerDataRepository
+) : ViewModel() {
 
     var timerState: CurrTime = CurrTime()
 
@@ -30,9 +29,10 @@ class SetTimerViewModel(val database: TimerDAO, application: Application) :
         timerState!!.state = TimerState.READY
     }
 
+
     fun saveTimerToDB() {
         viewModelScope.launch {
-            savetoDB(
+            timerDataRepository.savetoDB(
                 TimerEntity(
                     System.currentTimeMillis(),
                     timerState!!.currentTime,
@@ -44,10 +44,10 @@ class SetTimerViewModel(val database: TimerDAO, application: Application) :
         }
     }
 
-    suspend fun savetoDB(timerEntity: TimerEntity) {
-        withContext(Dispatchers.IO) {
-            database.insertTimerToHistory(timerEntity)
-        }
-    }
+//    suspend fun savetoDB(timerEntity: TimerEntity) {
+//        withContext(Dispatchers.IO) {
+//            database.insertTimerToHistory(timerEntity)
+//        }
+//    }
 
 }

@@ -1,18 +1,22 @@
 package kost.romi.timerforscreentimeout.timerhistory
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kost.romi.timerforscreentimeout.data.TimerDataRepository
 import kost.romi.timerforscreentimeout.data.TimerEntity
 import kost.romi.timerforscreentimeout.data.source.local.TimerDAO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class TimerHistoryViewModel(val dataSource: TimerDAO, application: Application) :
-    AndroidViewModel(application) {
+@HiltViewModel
+class TimerHistoryViewModel @Inject internal constructor(
+    savedStateHandle: SavedStateHandle,
+    private val timerDataRepository: TimerDataRepository
+) : ViewModel() {
 
     var timerEntityLiveData = MutableLiveData<List<TimerEntity?>>()
 
@@ -28,7 +32,7 @@ class TimerHistoryViewModel(val dataSource: TimerDAO, application: Application) 
 
     suspend fun getHistory() {
         withContext(Dispatchers.IO) {
-            timerEntityLiveData.postValue(dataSource.getTimerHistory())
+            timerEntityLiveData.postValue(timerDataRepository.getHistory())
         }
     }
 

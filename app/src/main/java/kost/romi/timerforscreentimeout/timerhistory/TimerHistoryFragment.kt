@@ -11,24 +11,25 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.R
 import kost.romi.timerforscreentimeout.TimerHistoryAdapter
 import kost.romi.timerforscreentimeout.data.TimerEntity
 import kost.romi.timerforscreentimeout.data.source.local.TimerDatabase
 import kost.romi.timerforscreentimeout.databinding.FragmentTimerHistoryBinding
 import kost.romi.timerforscreentimeout.timerdetail.SetTimerViewModel
-import kost.romi.timerforscreentimeout.timerdetail.SetTimerViewModelFactory
 import kotlinx.android.synthetic.main.fragment_timer_history.view.*
 
 /**
  * A fragment to show all the timer the User has run.
  * Will contain date, start, and finished data of the CountDownTimer.
  */
+@AndroidEntryPoint
 class TimerHistoryFragment : Fragment() {
 
-    private var binding: FragmentTimerHistoryBinding? = null
+    private lateinit var binding: FragmentTimerHistoryBinding
 
-    lateinit var viewModel: TimerHistoryViewModel
+    private val viewModel: TimerHistoryViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,16 +39,16 @@ class TimerHistoryFragment : Fragment() {
         setHasOptionsMenu(true)
 
         // Initialize DB.
-        val application = requireNotNull(this.activity).application
-        val dataSource = TimerDatabase.getInstance(application).timerDao
-        val viewModelFactory = TimerHistoryModelFactory(dataSource, application)
-        val timerHistoryViewModel = ViewModelProvider(
-            this, viewModelFactory
-        ).get(TimerHistoryViewModel::class.java)
-        binding!!.setLifecycleOwner(this)
-        binding!!.timerHistoryViewModel = timerHistoryViewModel
-
-        viewModel = timerHistoryViewModel
+//        val application = requireNotNull(this.activity).application
+//        val dataSource = TimerDatabase.getInstance(application).timerDao
+//        val viewModelFactory = TimerHistoryModelFactory(dataSource, application)
+//        val timerHistoryViewModel = ViewModelProvider(
+//            this, viewModelFactory
+//        ).get(TimerHistoryViewModel::class.java)
+//        binding!!.setLifecycleOwner(this)
+//        binding!!.timerHistoryViewModel = timerHistoryViewModel
+//
+//        viewModel = timerHistoryViewModel
 
         // RecyclerView
         val adapter = TimerHistoryAdapter()

@@ -7,8 +7,10 @@ import android.os.CountDownTimer
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.R
 import kost.romi.timerforscreentimeout.data.TimerState
 import kost.romi.timerforscreentimeout.data.source.local.TimerDatabase
@@ -24,12 +26,13 @@ import java.util.*
  * Everytime after the CountDownTimer is done running, it will be saved to TimerDatabase,
  * to be used in TimerHistoryFragment.
  */
+@AndroidEntryPoint
 class SetTimerFragment : Fragment() {
 
     // Scoped to the lifecycle of the fragment's view (between onCreateView and onDestroyView)
-    private var binding: FragmentSetTimerBinding? = null
+    private lateinit var  binding: FragmentSetTimerBinding
 
-    lateinit var viewModel: SetTimerViewModel
+    private val viewModel: SetTimerViewModel by viewModels()
 
     private lateinit var timer: CountDownTimer
 
@@ -42,16 +45,16 @@ class SetTimerFragment : Fragment() {
         setHasOptionsMenu(true)
 
         // Initialize DB.
-        val application = requireNotNull(this.activity).application
-        val dataSource = TimerDatabase.getInstance(application).timerDao
-        val viewModelFactory = SetTimerViewModelFactory(dataSource, application)
-        val setTimerViewModel = ViewModelProvider(
-            this, viewModelFactory
-        ).get(SetTimerViewModel::class.java)
-        binding!!.setLifecycleOwner(this)
-        binding!!.setTimerViewModel = setTimerViewModel
-
-        viewModel = setTimerViewModel
+//        val application = requireNotNull(this.activity).application
+//        val dataSource = TimerDatabase.getInstance(application).timerDao
+//        val viewModelFactory = SetTimerViewModelFactory(dataSource, application)
+//        val setTimerViewModel = ViewModelProvider(
+//            this, viewModelFactory
+//        ).get(SetTimerViewModel::class.java)
+//        binding!!.setLifecycleOwner(this)
+//        binding!!.setTimerViewModel = setTimerViewModel
+//
+//        viewModel = setTimerViewModel
 
         return binding!!.root
     }

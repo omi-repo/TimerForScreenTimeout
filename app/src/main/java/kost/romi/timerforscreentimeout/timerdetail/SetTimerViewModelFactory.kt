@@ -10,15 +10,15 @@ import kost.romi.timerforscreentimeout.data.source.local.TimerDAO
  *
  * Provides the TimerDAO and context to the ViewModel.
  */
-class SetTimerViewModelFactory(
-    private val dataSource: TimerDAO,
-    private val application: Application
-) : ViewModelProvider.Factory {
-    @Suppress("unchecked_cast")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SetTimerViewModel::class.java)) {
-            return SetTimerViewModel(dataSource, application) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
+//class SetTimerViewModelFactory(
+//    private val dataSource: TimerDAO,
+//    private val application: Application
+//) : ViewModelProvider.Factory {
+//    @Suppress("unchecked_cast")
+//    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+//        if (modelClass.isAssignableFrom(SetTimerViewModel::class.java)) {
+//            return SetTimerViewModel(dataSource, application) as T
+//        }
+//        throw IllegalArgumentException("Unknown ViewModel class")
+//    }
+//}
