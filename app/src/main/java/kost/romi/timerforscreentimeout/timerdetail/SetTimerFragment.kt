@@ -1,24 +1,18 @@
 package kost.romi.timerforscreentimeout.timerdetail
 
-import android.Manifest
 import android.app.admin.DevicePolicyManager
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.R
-import kost.romi.timerforscreentimeout.REQUEST_WRITE_SETTINGS
 import kost.romi.timerforscreentimeout.data.TimerState
 import kost.romi.timerforscreentimeout.databinding.FragmentSetTimerBinding
-import kost.romi.timerforscreentimeout.hasPermission
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.util.*
@@ -29,8 +23,7 @@ import java.util.*
  * CountDownTimer is started in this fragment as well.
  * Everytime after the CountDownTimer is done running, it will be saved to TimerDatabase,
  * to be used in TimerHistoryFragment.
- * TODO; add minutes to setting up timer.
- * TODO; update UI view
+ * TODO; Update Toolbar
  */
 @AndroidEntryPoint
 class SetTimerFragment : Fragment() {
@@ -62,7 +55,7 @@ class SetTimerFragment : Fragment() {
             R.id.menu_history -> {
                 Toast.makeText(requireContext(), "history fragment button hit", Toast.LENGTH_SHORT)
                     .show()
-                var action =
+                val action =
                     SetTimerFragmentDirections.actionSetTimerFragmentToTimerHistoryFragment()
                 findNavController().navigate(action)
                 true
@@ -95,12 +88,14 @@ class SetTimerFragment : Fragment() {
         }
 
         binding.startPauseFab.setOnClickListener {
-            binding.stopResetFab?.visibility = View.VISIBLE
-            when (viewModel.timerState!!.state) {
+            binding.stopResetFab.visibility = View.VISIBLE
+            when (viewModel.timerState.state) {
                 TimerState.READY -> startTimer((binding.secondsNumberPicker.value * 1000).toLong() + (binding.minutesNumberPicker.value * 60000).toLong())
                 TimerState.STARTED -> pauseTimer()
                 TimerState.PAUSED -> pauseTimer()
-                TimerState.RESUME -> resumeTimer(viewModel.timerState!!.currentTime)
+                TimerState.RESUME -> resumeTimer(viewModel.timerState.currentTime)
+                else -> Toast.makeText(requireContext(), "ooops, try again.", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -113,8 +108,8 @@ class SetTimerFragment : Fragment() {
     private fun resumeTimer(value: Long) {
         binding.startPauseFab.setImageResource(R.drawable.ic_baseline_pause_24)
         binding.countdownTextview.visibility = View.VISIBLE
-        if (viewModel.timerState.currentTime.toString().equals("0")) {
-            binding.countdownTextview.text = "00:000"  // test
+        if (viewModel.timerState.currentTime.toString() == "0") {
+            binding.countdownTextview.text = getString(R.string.time_at_zero)  // test
         }
         binding.secondsNumberPicker.visibility = View.GONE
 
@@ -126,7 +121,7 @@ class SetTimerFragment : Fragment() {
         timer.start()
     }
 
-    fun stopTimer() {
+    private fun stopTimer() {
         binding.stopResetFab.visibility = View.GONE
         binding.startPauseFab.setImageResource(R.drawable.ic_baseline_play_arrow_24)
         binding.countdownTextview.visibility = View.GONE
@@ -143,14 +138,14 @@ class SetTimerFragment : Fragment() {
         timer.cancel()
     }
 
-    fun startTimer(value: Long) {
+    private fun startTimer(value: Long) {
         Timber.d("fun startTimer(value: Long) : $value")
         Timber.d("${Date()}")
 
-        binding.startPauseFab?.setImageResource(R.drawable.ic_baseline_pause_24)
+        binding.startPauseFab.setImageResource(R.drawable.ic_baseline_pause_24)
         binding.countdownTextview.visibility = View.VISIBLE
         if (viewModel.timerState.currentTime.toString().equals("0")) {
-            binding?.countdownTextview.text = "00:000"  // test
+            binding.countdownTextview.text = getString(R.string.time_at_zero)  // test
         }
         binding.secondsNumberPicker.visibility = View.GONE
         binding.minutesNumberPicker.visibility = View.GONE
@@ -171,13 +166,13 @@ class SetTimerFragment : Fragment() {
         timer = object : CountDownTimer(value, 10) {
             override fun onTick(millisUntilFinished: Long) {
                 Timber.i(millisUntilFinished.toString())
-                var f = DecimalFormat("00")
-                var minutes = (millisUntilFinished / 60000) % 60
-                var seconds = (millisUntilFinished / 1000) % 60
-                var m = DecimalFormat("000")
-                var milis = millisUntilFinished % 1000
-                binding.countdownTextview.text =
-                    "${f.format(minutes)} : ${f.format(seconds)} : ${m.format(milis)}"
+                val f = DecimalFormat("00")
+                val minutes = (millisUntilFinished / 60000) % 60
+                val seconds = (millisUntilFinished / 1000) % 60
+                val m = DecimalFormat("000")
+                val millis = millisUntilFinished % 1000
+                val str = "${f.format(minutes)} : ${f.format(seconds)} : ${m.format(millis)}"
+                binding.countdownTextview.text = str
 
                 millisOnPaused = millisUntilFinished
             }
@@ -185,15 +180,14 @@ class SetTimerFragment : Fragment() {
             override fun onFinish() {
                 Timber.i("Count Down FINISH !!!")
 //            lockScreenNow()
-                policy = null
-                binding.startPauseFab?.setImageResource(R.drawable.ic_baseline_play_arrow_24)
-                binding.countdownTextview?.text = "00 : 00 : 000"
+                binding.startPauseFab.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+                binding.countdownTextview.text = getString(R.string.time_at_zero)
                 viewModel.timerState.state = TimerState.FINISH
             }
         }
     }
 
-    fun pauseTimer() {
+    private fun pauseTimer() {
         binding.startPauseFab.setImageResource(R.drawable.ic_baseline_play_arrow_24)
 
         viewModel.timerState.state = TimerState.RESUME
@@ -203,21 +197,15 @@ class SetTimerFragment : Fragment() {
         timer.cancel()
     }
 
-    var policy = null
 
     /**
      * A function to lock the screen.
      * For testing, sometimes it's not called.
      */
     fun lockScreenNow() {
-        var policy =
-            requireActivity()!!.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager?
+        val policy =
+            requireActivity().getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager?
         policy!!.lockNow()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        // Consider not storing the binding instance in a field, if not needed.
     }
 
 }

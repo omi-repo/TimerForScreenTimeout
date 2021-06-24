@@ -11,13 +11,13 @@ class TimerDataRepository @Inject constructor(
     private val timerDAO: TimerDAO
 ) {
 
-    suspend fun savetoDB(timerEntity: TimerEntity) {
+    suspend fun saveToDB(timerEntity: TimerEntity) {
         withContext(Dispatchers.IO) {
             timerDAO.insertTimerToHistory(timerEntity)
         }
     }
 
-    suspend fun getHistory() = timerDAO.getTimerHistory()
+    fun getHistory() = timerDAO.getTimerHistory()
 
 //    suspend fun getHistory() {
 //        withContext(Dispatchers.IO) {

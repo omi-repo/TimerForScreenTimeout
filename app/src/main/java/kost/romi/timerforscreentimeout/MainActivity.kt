@@ -1,12 +1,9 @@
 package kost.romi.timerforscreentimeout
 
-import android.Manifest
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Settings
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -37,10 +34,6 @@ class MainActivity : AppCompatActivity() {
     var mDeviceAdmin: ComponentName? = null
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-
-    //    private val DELAY = 3000
-    private val DELAY = 10
-    var defTimeOut = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,10 +71,6 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onSupportNavigateUp(): Boolean {

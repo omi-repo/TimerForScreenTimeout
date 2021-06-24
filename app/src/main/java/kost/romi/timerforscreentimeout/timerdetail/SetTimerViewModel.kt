@@ -23,31 +23,25 @@ class SetTimerViewModel @Inject internal constructor(
     var timerState: CurrTime = CurrTime()
 
     fun setupTimer() {
-        timerState!!.dateTimerAt = 0
-        timerState!!.currentTime = 0
-        timerState!!.pausedAt = 0
-        timerState!!.state = TimerState.READY
+        timerState.dateTimerAt = 0
+        timerState.currentTime = 0
+        timerState.pausedAt = 0
+        timerState.state = TimerState.READY
     }
 
 
     fun saveTimerToDB() {
         viewModelScope.launch {
-            timerDataRepository.savetoDB(
+            timerDataRepository.saveToDB(
                 TimerEntity(
                     System.currentTimeMillis(),
-                    timerState!!.currentTime,
-                    timerState!!.pausedAt,
-                    timerState!!.startAt,
-                    timerState!!.state
+                    timerState.currentTime,
+                    timerState.pausedAt,
+                    timerState.startAt,
+                    timerState.state
                 )
             )
         }
     }
-
-//    suspend fun savetoDB(timerEntity: TimerEntity) {
-//        withContext(Dispatchers.IO) {
-//            database.insertTimerToHistory(timerEntity)
-//        }
-//    }
 
 }

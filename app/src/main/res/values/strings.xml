@@ -13,5 +13,6 @@
     <string name="test">test</string>
     <string name="started_at">Started at:</string>
     <string name="paused_at">Paused at:</string>
+    <string name="time_at_zero">00:00:000</string>
 
 </resources>
