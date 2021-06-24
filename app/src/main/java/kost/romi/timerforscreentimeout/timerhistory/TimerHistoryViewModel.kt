@@ -35,9 +35,5 @@ class TimerHistoryViewModel @Inject internal constructor(
             timerEntityLiveData.postValue(timerDataRepository.getHistory())
         }
     }
-
-//    private lateinit var entity
-
-//    var entity = dataSource.getAllTimerHistory()
-
+    
 }

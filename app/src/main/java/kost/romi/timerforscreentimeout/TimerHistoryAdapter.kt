@@ -44,15 +44,6 @@ class TimerHistoryAdapter() :
         }
 
         fun timerTextViewString(long: Long, textView: TextView) {
-//            when (str.length) {
-//                5 -> textView.text =
-//                    "${str.substring(0, 2)} : ${str.substring(2)}"
-//                4 -> textView.text =
-//                    "0${str.get(0)} : ${str.substring(1)}"
-//                3 -> textView.text = "00 : $str"
-//                2 -> textView.text = "00 : 0${str}"
-//                1 -> textView.text = "00 : 00${str}"
-//            }
             var f = DecimalFormat("00")
             var minutes = (long / 60000) % 60
             var seconds = (long / 1000) % 60

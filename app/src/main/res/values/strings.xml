@@ -10,5 +10,8 @@
     <string name="timer_controller_stop">stop</string>
     <string name="stop_reset">STOP/RESET</string>
     <string name="history">History</string>
+    <string name="test">test</string>
+    <string name="started_at">Started at:</string>
+    <string name="paused_at">Paused at:</string>
 
 </resources>

@@ -1,9 +1,12 @@
 package kost.romi.timerforscreentimeout
 
+import android.Manifest
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -11,11 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.room.Room
 import dagger.hilt.android.AndroidEntryPoint
-import kost.romi.timerforscreentimeout.data.source.local.TimerDatabase
-import timber.log.Timber
-import timber.log.Timber.DebugTree
 
 /**
  * This app is for locking the phone by counting down to zero.
@@ -39,6 +38,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    //    private val DELAY = 3000
+    private val DELAY = 10
+    var defTimeOut = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,7 +51,8 @@ class MainActivity : AppCompatActivity() {
         val navController: NavController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration.Builder().build()
         setupActionBarWithNavController(navController, appBarConfiguration)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeButtonEnabled(false)
 
         // Placeholder for fragment
         val navHostFragment = supportFragmentManager.findFragmentById(
@@ -56,15 +60,24 @@ class MainActivity : AppCompatActivity() {
         ) as NavHostFragment
         navHostFragment.navController
 
-        // Handling Admin
-        // Prepare to work with the Device Policy Manager
-        mDPM = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
-        mDeviceAdmin = ComponentName(this, MyDeviceAdminReceiver::class.java)
-        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
-        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mDeviceAdmin)
-        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "EXPLANATION")
-        startActivityForResult(intent, 0)
-        MyDeviceAdminReceiver().onEnabled(this, intent)
+//        // Handling Admin
+//        // Prepare to work with the Device Policy Manager
+//        mDPM = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
+//        mDeviceAdmin = ComponentName(this, MyDeviceAdminReceiver::class.java)
+//        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+//        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mDeviceAdmin)
+//        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "EXPLANATION")
+//        startActivityForResult(intent, 0)
+//        MyDeviceAdminReceiver().onEnabled(this, intent)
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
