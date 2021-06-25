@@ -40,12 +40,12 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        setSupportActionBar(findViewById(R.id.toolbar))
-        val navController: NavController = findNavController(R.id.nav_host_fragment)
-        appBarConfiguration = AppBarConfiguration.Builder().build()
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setHomeButtonEnabled(false)
+//        setSupportActionBar(findViewById(R.id.toolbar))
+//        val navController: NavController = findNavController(R.id.nav_host_fragment)
+//        appBarConfiguration = AppBarConfiguration.Builder().build()
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar!!.setHomeButtonEnabled(false)
 
         // Placeholder for fragment
         val navHostFragment = supportFragmentManager.findFragmentById(
@@ -73,8 +73,8 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration) ||
-                super.onSupportNavigateUp()
-    }
+//    override fun onSupportNavigateUp(): Boolean {
+//        return findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration) ||
+//                super.onSupportNavigateUp()
+//    }
 }

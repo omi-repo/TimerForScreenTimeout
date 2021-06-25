@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.R
@@ -31,7 +32,10 @@ class TimerHistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTimerHistoryBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
+
+        binding.toolbar.setNavigationOnClickListener {
+            it.findNavController().navigateUp()
+        }
 
         // RecyclerView
         val adapter = TimerHistoryAdapter()
@@ -44,15 +48,8 @@ class TimerHistoryFragment : Fragment() {
             }
         })
 
+        setHasOptionsMenu(true)
         return binding!!.root
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.home) {
-//            val action = TimerHistoryFragmentDirections.actionTimerHistoryFragmentToSetTimerFragment()
-//            findNavController().navigateUp(action)
-        }
-        return false
     }
 
 }

@@ -23,7 +23,6 @@ import java.util.*
  * CountDownTimer is started in this fragment as well.
  * Everytime after the CountDownTimer is done running, it will be saved to TimerDatabase,
  * to be used in TimerHistoryFragment.
- * TODO; Update Toolbar
  */
 @AndroidEntryPoint
 class SetTimerFragment : Fragment() {
@@ -41,27 +40,26 @@ class SetTimerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSetTimerBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
+
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_history -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "history fragment button hit",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    val action =
+                        SetTimerFragmentDirections.actionSetTimerFragmentToTimerHistoryFragment()
+                    findNavController().navigate(action)
+                    true
+                }
+                else -> false
+            }
+        }
 
         return binding.root
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.history_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_history -> {
-                Toast.makeText(requireContext(), "history fragment button hit", Toast.LENGTH_SHORT)
-                    .show()
-                val action =
-                    SetTimerFragmentDirections.actionSetTimerFragmentToTimerHistoryFragment()
-                findNavController().navigate(action)
-                true
-            }
-            else -> false
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,6 +67,7 @@ class SetTimerFragment : Fragment() {
 
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.stopResetFab.visibility = View.GONE
+        binding.countdownTextview.visibility = View.GONE
 
         viewModel.setupTimer()
 
@@ -94,8 +93,9 @@ class SetTimerFragment : Fragment() {
                 TimerState.STARTED -> pauseTimer()
                 TimerState.PAUSED -> pauseTimer()
                 TimerState.RESUME -> resumeTimer(viewModel.timerState.currentTime)
-                else -> Toast.makeText(requireContext(), "ooops, try again.", Toast.LENGTH_SHORT)
-                    .show()
+                else ->
+                    Toast.makeText(requireContext(), "ooops, try again.", Toast.LENGTH_SHORT)
+                        .show()
             }
         }
 
@@ -122,11 +122,14 @@ class SetTimerFragment : Fragment() {
     }
 
     private fun stopTimer() {
-        binding.stopResetFab.visibility = View.GONE
         binding.startPauseFab.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+        binding.stopResetFab.visibility = View.GONE
         binding.countdownTextview.visibility = View.GONE
+
         binding.secondsNumberPicker.visibility = View.VISIBLE
         binding.minutesNumberPicker.visibility = View.VISIBLE
+        binding.minutesNumberPickerTextView.visibility = View.VISIBLE
+        binding.secondsNumberPickerTextView.visibility = View.VISIBLE
 
         viewModel.timerState.currentTime = millisOnPaused
         if (viewModel.timerState.state != TimerState.FINISH) {
@@ -147,8 +150,11 @@ class SetTimerFragment : Fragment() {
         if (viewModel.timerState.currentTime.toString().equals("0")) {
             binding.countdownTextview.text = getString(R.string.time_at_zero)  // test
         }
+
         binding.secondsNumberPicker.visibility = View.GONE
         binding.minutesNumberPicker.visibility = View.GONE
+        binding.minutesNumberPickerTextView.visibility = View.GONE
+        binding.secondsNumberPickerTextView.visibility = View.GONE
 
         viewModel.timerState.dateTimerAt = 0
         viewModel.timerState.currentTime = value

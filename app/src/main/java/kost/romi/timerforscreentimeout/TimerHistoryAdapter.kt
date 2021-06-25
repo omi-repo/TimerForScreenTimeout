@@ -13,7 +13,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TimerHistoryAdapter() :
+class TimerHistoryAdapter :
     ListAdapter<TimerEntity, TimerHistoryAdapter.TimerHistoryViewHolder>(TimerHistoryDiffCallback) {
 
     /* ViewHolder for Flower, takes in the inflated view and the onClick behavior. */
@@ -31,7 +31,8 @@ class TimerHistoryAdapter() :
         fun bind(timerEntity: TimerEntity) {
             dateTimerAt_textview.text =
                 Date(timerEntity.dateTimerAt).let {
-                    SimpleDateFormat("dd-MM-yyyy / HH:mm").format(it)
+//                    SimpleDateFormat("dd-MM-yyyy / HH:mm").format(it)
+                    SimpleDateFormat("dd-MM-yyyy / HH:mm", Locale.US).format(it)
                 }
                     .toString()
             timerTextViewString(timerEntity.currentTime, currentTime_textview)
@@ -43,13 +44,14 @@ class TimerHistoryAdapter() :
             cardView.elevation = (16).toFloat()
         }
 
-        fun timerTextViewString(long: Long, textView: TextView) {
-            var f = DecimalFormat("00")
-            var minutes = (long / 60000) % 60
-            var seconds = (long / 1000) % 60
-            var milis = long % 1000
-            textView.text =
-                "${f.format(minutes)} : ${f.format(seconds)} : ${f.format(milis)}"
+        private fun timerTextViewString(long: Long, textView: TextView) {
+            val f = DecimalFormat("00")
+            val minutes = (long / 60000) % 60
+            val seconds = (long / 1000) % 60
+            val millis = long % 1000
+            val str = "${f.format(minutes)} : ${f.format(seconds)} : ${f.format(millis)}"
+            textView.text = str
+//                "${f.format(minutes)} : ${f.format(seconds)} : ${f.format(millis)}"
         }
     }
 
