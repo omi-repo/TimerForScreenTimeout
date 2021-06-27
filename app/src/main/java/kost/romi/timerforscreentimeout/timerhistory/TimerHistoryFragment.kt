@@ -28,7 +28,7 @@ class TimerHistoryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentTimerHistoryBinding.inflate(inflater, container, false)
 
         binding.toolbar.setNavigationOnClickListener {
@@ -63,7 +63,7 @@ class TimerHistoryFragment : Fragment() {
             }
         }
 
-        return binding!!.root
+        return binding.root
     }
 
 }

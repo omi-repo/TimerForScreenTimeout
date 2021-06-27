@@ -5,9 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
-import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -148,7 +146,7 @@ class SetTimerFragment : Fragment() {
         binding.stopResetFab.visibility = View.VISIBLE
         binding.countdownTextview.visibility = View.VISIBLE
         binding.progressBar.visibility = View.VISIBLE
-        if (viewModel.timerState.currentTime.toString().equals("0")) {
+        if (viewModel.timerState.currentTime.toString() == "0") {
             binding.countdownTextview.text = getString(R.string.time_at_zero)  // test
         }
 
@@ -194,7 +192,7 @@ class SetTimerFragment : Fragment() {
                 millisOnPaused = 0
                 viewModel.timerState.state = TimerState.FINISH
 
-                if (binding.screenLockSwitch?.isChecked == true) {
+                if (binding.screenLockSwitch.isChecked) {
                     lockScreenNow()
                 } else {
                     Toast.makeText(requireContext(), "Countdown done.", Toast.LENGTH_SHORT)

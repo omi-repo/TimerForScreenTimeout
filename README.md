@@ -1,7 +1,6 @@
 # TimerForScreenTimeout README (Timer for Screen Timeout)
 
 Timer for Screen Timeout is an Android app for for locking phone by counting down then locking the phone.
-Note: Some function is disabled.
 
 ## Getting Started
 
