@@ -1,6 +1,5 @@
 package kost.romi.timerforscreentimeout.data.source.local
 
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -15,7 +14,7 @@ interface TimerDAO {
      * Get all item in table.
      */
     @Query("SELECT * FROM $DATABASE_NAME ORDER BY id DESC")
-    fun getTimerHistory(): List<TimerEntity>?
+    fun getAllTimerHistory(): Flow<List<TimerEntity>>
 
     /**
      * Insert a new item to table.

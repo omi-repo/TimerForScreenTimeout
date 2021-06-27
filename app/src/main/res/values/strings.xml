@@ -1,8 +1,6 @@
 <resources>
 
     <string name="app_name">Timer For Screen Timeout</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="profile_name">Sample Device Owner</string>
     <string name="timer_controller_play">play</string>
@@ -16,5 +14,7 @@
     <string name="time_at_zero">00:00:000</string>
     <string name="minutes">Minutes</string>
     <string name="seconds">Seconds</string>
+    <string name="clear_all">Clear All</string>
+    <string name="screen_lock">Screen Lock</string>
 
 </resources>

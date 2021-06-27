@@ -1,18 +1,16 @@
 package kost.romi.timerforscreentimeout.timerhistory
 
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.R
 import kost.romi.timerforscreentimeout.TimerHistoryAdapter
-import kost.romi.timerforscreentimeout.data.TimerEntity
 import kost.romi.timerforscreentimeout.databinding.FragmentTimerHistoryBinding
 import kotlinx.android.synthetic.main.fragment_timer_history.view.*
 
@@ -39,16 +37,32 @@ class TimerHistoryFragment : Fragment() {
 
         // RecyclerView
         val adapter = TimerHistoryAdapter()
-        val recyclerView: RecyclerView = binding!!.root.recycler_view
+        val recyclerView: RecyclerView = binding.root.recycler_view
         recyclerView.adapter = adapter
 
-        viewModel.timerEntityLiveData.observe(viewLifecycleOwner, {
-            it?.let {
-                adapter.submitList(it as MutableList<TimerEntity>)
-            }
-        })
+        viewModel.getAllHistory.observe(owner = viewLifecycleOwner) {
+            it.let { adapter.submitList(it) }
+        }
 
         setHasOptionsMenu(true)
+
+        binding.toolbar.title = "Countdown History"
+        binding.toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.clear_all_item -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "All item cleared.",
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                    viewModel.clearCountdownHistory()
+                    true
+                }
+                else -> false
+            }
+        }
+
         return binding!!.root
     }
 

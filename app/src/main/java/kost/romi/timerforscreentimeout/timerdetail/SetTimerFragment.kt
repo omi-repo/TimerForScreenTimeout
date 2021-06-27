@@ -5,7 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -44,12 +46,6 @@ class SetTimerFragment : Fragment() {
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_history -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "history fragment button hit",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
                     val action =
                         SetTimerFragmentDirections.actionSetTimerFragmentToTimerHistoryFragment()
                     findNavController().navigate(action)
@@ -68,6 +64,7 @@ class SetTimerFragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
         binding.stopResetFab.visibility = View.GONE
         binding.countdownTextview.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
 
         viewModel.setupTimer()
 
@@ -86,8 +83,8 @@ class SetTimerFragment : Fragment() {
             Timber.d("viewDataBinding!!.secondsNumberPicker.setOnValueChangedListener { picker, oldVal, newVal -> : ${picker.value}")
         }
 
+        // For start and resume timer actions
         binding.startPauseFab.setOnClickListener {
-            binding.stopResetFab.visibility = View.VISIBLE
             when (viewModel.timerState.state) {
                 TimerState.READY -> startTimer((binding.secondsNumberPicker.value * 1000).toLong() + (binding.minutesNumberPicker.value * 60000).toLong())
                 TimerState.STARTED -> pauseTimer()
@@ -99,6 +96,7 @@ class SetTimerFragment : Fragment() {
             }
         }
 
+        // For stop timer actions
         binding.stopResetFab.setOnClickListener {
             stopTimer()
         }
@@ -125,6 +123,7 @@ class SetTimerFragment : Fragment() {
         binding.startPauseFab.setImageResource(R.drawable.ic_baseline_play_arrow_24)
         binding.stopResetFab.visibility = View.GONE
         binding.countdownTextview.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
 
         binding.secondsNumberPicker.visibility = View.VISIBLE
         binding.minutesNumberPicker.visibility = View.VISIBLE
@@ -146,7 +145,9 @@ class SetTimerFragment : Fragment() {
         Timber.d("${Date()}")
 
         binding.startPauseFab.setImageResource(R.drawable.ic_baseline_pause_24)
+        binding.stopResetFab.visibility = View.VISIBLE
         binding.countdownTextview.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
         if (viewModel.timerState.currentTime.toString().equals("0")) {
             binding.countdownTextview.text = getString(R.string.time_at_zero)  // test
         }
@@ -181,14 +182,24 @@ class SetTimerFragment : Fragment() {
                 binding.countdownTextview.text = str
 
                 millisOnPaused = millisUntilFinished
+
+                binding.progressBar.max = viewModel.timerState.startAt.toInt()
+                binding.progressBar.progress = millisUntilFinished.toInt()
             }
 
             override fun onFinish() {
                 Timber.i("Count Down FINISH !!!")
-//            lockScreenNow()
                 binding.startPauseFab.setImageResource(R.drawable.ic_baseline_play_arrow_24)
                 binding.countdownTextview.text = getString(R.string.time_at_zero)
+                millisOnPaused = 0
                 viewModel.timerState.state = TimerState.FINISH
+
+                if (binding.screenLockSwitch?.isChecked == true) {
+                    lockScreenNow()
+                } else {
+                    Toast.makeText(requireContext(), "Countdown done.", Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
     }

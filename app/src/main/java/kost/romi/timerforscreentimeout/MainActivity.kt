@@ -40,28 +40,21 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-//        setSupportActionBar(findViewById(R.id.toolbar))
-//        val navController: NavController = findNavController(R.id.nav_host_fragment)
-//        appBarConfiguration = AppBarConfiguration.Builder().build()
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar!!.setHomeButtonEnabled(false)
-
         // Placeholder for fragment
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.nav_host_fragment
         ) as NavHostFragment
         navHostFragment.navController
 
-//        // Handling Admin
-//        // Prepare to work with the Device Policy Manager
-//        mDPM = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
-//        mDeviceAdmin = ComponentName(this, MyDeviceAdminReceiver::class.java)
-//        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
-//        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mDeviceAdmin)
-//        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "EXPLANATION")
-//        startActivityForResult(intent, 0)
-//        MyDeviceAdminReceiver().onEnabled(this, intent)
+        // Handling Admin
+        // Prepare to work with the Device Policy Manager
+        mDPM = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
+        mDeviceAdmin = ComponentName(this, MyDeviceAdminReceiver::class.java)
+        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, mDeviceAdmin)
+        intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "EXPLANATION")
+        startActivityForResult(intent, 0)
+        MyDeviceAdminReceiver().onEnabled(this, intent)
 
     }
 

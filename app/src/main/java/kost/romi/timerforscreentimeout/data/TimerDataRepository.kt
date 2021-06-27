@@ -2,6 +2,7 @@ package kost.romi.timerforscreentimeout.data
 
 import kost.romi.timerforscreentimeout.data.source.local.TimerDAO
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,12 +18,12 @@ class TimerDataRepository @Inject constructor(
         }
     }
 
-    fun getHistory() = timerDAO.getTimerHistory()
+    val getAllHistory: Flow<List<TimerEntity>> = timerDAO.getAllTimerHistory()
 
-//    suspend fun getHistory() {
-//        withContext(Dispatchers.IO) {
-//            timerDAO.getTimerHistory()
-//        }
-//    }
+    suspend fun clearCountdownHistory() {
+        withContext(Dispatchers.IO) {
+            timerDAO.deleteEverythingInTimerHistory()
+        }
+    }
 
 }
