@@ -83,14 +83,25 @@ class SetTimerFragment : Fragment() {
 
         // For start and resume timer actions
         binding.startPauseFab.setOnClickListener {
-            when (viewModel.timerState.state) {
-                TimerState.READY -> startTimer((binding.secondsNumberPicker.value * 1000).toLong() + (binding.minutesNumberPicker.value * 60000).toLong())
-                TimerState.STARTED -> pauseTimer()
-                TimerState.PAUSED -> pauseTimer()
-                TimerState.RESUME -> resumeTimer(viewModel.timerState.currentTime)
-                else ->
-                    Toast.makeText(requireContext(), "ooops, try again.", Toast.LENGTH_SHORT)
-                        .show()
+            val limit = (60 * 60000).toLong()
+            val numberPickValue =
+                (binding.secondsNumberPicker.value * 1000).toLong() + (binding.minutesNumberPicker.value * 60000).toLong()
+            if (numberPickValue > limit) {
+                Toast.makeText(
+                    requireContext(),
+                    "Countdown can't be more than\n 60 minutes",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else {
+                when (viewModel.timerState.state) {
+                    TimerState.READY -> startTimer(numberPickValue)
+                    TimerState.STARTED -> pauseTimer()
+                    TimerState.PAUSED -> pauseTimer()
+                    TimerState.RESUME -> resumeTimer(viewModel.timerState.currentTime)
+                    else ->
+                        Toast.makeText(requireContext(), "ooops, try again.", Toast.LENGTH_SHORT)
+                            .show()
+                }
             }
         }
 

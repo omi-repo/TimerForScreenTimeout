@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kost.romi.timerforscreentimeout.data.TimerEntity
+import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,7 +40,8 @@ class TimerHistoryAdapter :
             timerTextViewString(timerEntity.pausedAt, pausedAt_textview)
             timerTextViewString(timerEntity.startAt, startAt_textview)
             state_textview.text = timerEntity.state.toString()
-            id_textview.text = timerEntity.id.toString()
+//            id_textview.text = timerEntity.id.toString()
+            id_textview.text = ""
 
             cardView.elevation = (16).toFloat()
         }
@@ -48,10 +50,14 @@ class TimerHistoryAdapter :
             val f = DecimalFormat("00")
             val minutes = (long / 60000) % 60
             val seconds = (long / 1000) % 60
+            val m = DecimalFormat("000")
             val millis = long % 1000
-            val str = "${f.format(minutes)} : ${f.format(seconds)} : ${f.format(millis)}"
+            val str =
+                " ${if (long == 3600000.toLong()) 60 else f.format(minutes)} : " +
+                        "${f.format(seconds)} : " +
+                        "${m.format(millis)}"
             textView.text = str
-//                "${f.format(minutes)} : ${f.format(seconds)} : ${f.format(millis)}"
+            Timber.d("minutes: $minutes")
         }
     }
 
@@ -64,6 +70,7 @@ class TimerHistoryAdapter :
     override fun onBindViewHolder(holder: TimerHistoryViewHolder, position: Int) {
         val timerEntity = getItem(position)
         holder.bind(timerEntity)
+        Timber.d("${timerEntity.id} ${timerEntity.startAt}")
     }
 
 }

@@ -22,7 +22,14 @@ class TimerDataRepository @Inject constructor(
 
     suspend fun clearCountdownHistory() {
         withContext(Dispatchers.IO) {
-            timerDAO.deleteEverythingInTimerHistory()
+            timerDAO.clearEverythingInTimerHistory()
+            timerDAO.updateIdToZero(0)
+        }
+    }
+
+    suspend fun deleteTable(timerEntity: TimerEntity) {
+        withContext(Dispatchers.IO) {
+            timerDAO.deleteTable(timerEntity)
         }
     }
 

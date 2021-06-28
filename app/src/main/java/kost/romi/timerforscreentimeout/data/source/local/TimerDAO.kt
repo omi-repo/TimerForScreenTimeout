@@ -1,9 +1,6 @@
 package kost.romi.timerforscreentimeout.data.source.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kost.romi.timerforscreentimeout.DATABASE_NAME
 import kost.romi.timerforscreentimeout.data.TimerEntity
 import kotlinx.coroutines.flow.Flow
@@ -26,5 +23,11 @@ interface TimerDAO {
      * Delete everything in table.
      */
     @Query("DELETE FROM $DATABASE_NAME")
-    suspend fun deleteEverythingInTimerHistory(): Int
+    suspend fun clearEverythingInTimerHistory(): Int
+
+    @Query("UPDATE $DATABASE_NAME SET id=:idInt WHERE id != 0")
+    suspend fun updateIdToZero(idInt: Int)
+
+    @Delete
+    suspend fun deleteTable(timerEntity: TimerEntity)
 }
