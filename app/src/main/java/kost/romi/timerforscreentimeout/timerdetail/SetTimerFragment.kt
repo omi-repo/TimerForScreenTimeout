@@ -2,6 +2,7 @@ package kost.romi.timerforscreentimeout.timerdetail
 
 import android.app.admin.DevicePolicyManager
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.*
@@ -74,6 +75,16 @@ class SetTimerFragment : Fragment() {
         binding.secondsNumberPicker.minValue = 0
 
         startPauseStopTimer()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        // Checks the orientation of the screen
+        if (newConfig.orientation === Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(requireContext(), "landscape", Toast.LENGTH_SHORT).show()
+        } else if (newConfig.orientation === Configuration.ORIENTATION_PORTRAIT) {
+            Toast.makeText(requireContext(), "portrait", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun startPauseStopTimer() {

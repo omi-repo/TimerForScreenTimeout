@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!-- Wrapping the layout to make it available with data binding. -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Data to make available to the XML via data binding. In this case,
          the whole ViewModel, so that we can access the LiveData,
@@ -12,6 +13,18 @@
             name="setTimerViewModel"
             type="kost.romi.timerforscreentimeout.timerdetail.SetTimerViewModel" />
     </data>
+
+    <!--    Start of the visible fragment layout using ConstraintLayout -->
+
+
+    <!--        <TextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Hallo World!"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,8 +63,8 @@
                 android:max="100"
                 android:min="0"
                 android:progressDrawable="@drawable/progress_bar_states"
-                android:scaleX="2"
-                android:scaleY="2"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,8 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:scaleX="2"
-                android:scaleY="2"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@+id/progressBar"
                 app:layout_constraintEnd_toEndOf="@+id/progressBar"
@@ -75,23 +88,25 @@
                 android:id="@+id/minutes_number_picker_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="60dp"
+                android:layout_marginEnd="16dp"
+                android:rotation="270"
                 android:text="@string/minutes"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/minutes_number_picker"
-                app:layout_constraintEnd_toEndOf="@+id/minutes_number_picker"
-                app:layout_constraintStart_toStartOf="@+id/minutes_number_picker" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/minutes_number_picker"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/seconds_number_picker_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="60dp"
+                android:layout_marginEnd="16dp"
+                android:rotation="270"
                 android:text="@string/seconds"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/seconds_number_picker"
-                app:layout_constraintEnd_toEndOf="@+id/seconds_number_picker"
-                app:layout_constraintStart_toStartOf="@+id/seconds_number_picker" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/seconds_number_picker"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <NumberPicker
                 android:id="@+id/minutes_number_picker"
@@ -122,22 +137,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
                 android:contentDescription="@string/stop_reset"
                 android:src="@drawable/ic_baseline_stop_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/start_pause_fab" />
+                app:layout_constraintBottom_toBottomOf="@+id/start_pause_fab"
+                app:layout_constraintEnd_toStartOf="@+id/start_pause_fab"
+                app:layout_constraintTop_toTopOf="@+id/start_pause_fab" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/start_pause_fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
                 android:contentDescription="@string/timer_controller_play"
                 android:src="@drawable/ic_baseline_play_arrow_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/screen_lock_switch"
