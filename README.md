@@ -4,7 +4,7 @@ Timer for Screen Timeout is an Android app for for locking phone by counting dow
 
 ## Getting Started
 
-The app is a demo app for using the latest API from Jetpack in 2021 in order to complete the app.
+The app is a demo app for using the latest API from Jetpack in 2021 in order to complete the app. It uses MVVM architecture.
 
 ## Images
 
