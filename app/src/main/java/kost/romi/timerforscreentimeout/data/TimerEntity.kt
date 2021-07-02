@@ -10,7 +10,6 @@ import java.util.*
 class TimerEntity(
     @ColumnInfo(name = "dateTimerAt") var dateTimerAt: Long = 0,
     @ColumnInfo(name = "currentTime") var currentTime: Long = 0,
-    @ColumnInfo(name = "pausedAt") var pausedAt: Long = 0,
     @ColumnInfo(name = "startAt") var startAt: Long = 0,
     @ColumnInfo(name = "state") var state: TimerState = TimerState.READY,
     @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true)

@@ -1,14 +1,16 @@
 package kost.romi.timerforscreentimeout.timerdetail
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.os.CountDownTimer
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kost.romi.timerforscreentimeout.data.CurrTime
 import kost.romi.timerforscreentimeout.data.TimerDataRepository
 import kost.romi.timerforscreentimeout.data.TimerEntity
 import kost.romi.timerforscreentimeout.data.TimerState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 /**
@@ -22,147 +24,95 @@ class SetTimerViewModel @Inject internal constructor(
 
     var timerState: CurrTime = CurrTime()
 
-    fun setupTimer() {
-        timerState.dateTimerAt = 0
-        timerState.currentTime = 0
-        timerState.pausedAt = 0
-        timerState.state = TimerState.READY
-    }
-
-
-    fun saveTimerToDB() {
-        viewModelScope.launch {
+    fun saveTimerToDB(
+        currentTime: Long = 0,
+        startTime: Long = 0,
+        state: TimerState = TimerState.READY
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
             timerDataRepository.saveToDB(
                 TimerEntity(
                     System.currentTimeMillis(),
-                    timerState.currentTime,
-                    timerState.pausedAt,
-                    timerState.startAt,
-                    timerState.state
+                    currentTime,
+                    startTime,
+                    state
                 )
             )
         }
     }
 
-    /*
-    /* Set minutes and Second var from NumberPicker.  */
-    private var _minutesNumberPickerInt = MutableLiveData<Int>()
-    val minutesNumberPickerInt: LiveData<Int>
-        get() = _minutesNumberPickerInt
+    private var _startTimerBoolean = MutableLiveData<Boolean>(false)
+    val startTimerBoolean: LiveData<Boolean>
+        get() = _startTimerBoolean
 
-    fun setMinutesNumberPickerInt(i: Int) {
-        _minutesNumberPickerInt.value = i
+    fun setStartTimerBoolean(bool: Boolean) {
+        _startTimerBoolean.value = bool
     }
 
-    private var _secondsNumberPickerInt = MutableLiveData<Int>()
-    val secondsNumberPickerInt: LiveData<Int>
-        get() = _secondsNumberPickerInt
+    private var _onTickBoolean = MutableLiveData<Boolean>(false)
+    val onTickBoolean: LiveData<Boolean>
+        get() = _onTickBoolean
 
-    fun setSecondsNumberPickerInt(i: Int) {
-        _secondsNumberPickerInt.value = i
+    fun onTickBoolean(bool: Boolean) {
+        _onTickBoolean.value = bool
     }
 
+    private lateinit var timer: CountDownTimer
+    private var _onTickValueString = MutableLiveData<String>("")
+    val onTickValueString: LiveData<String>
+        get() = _onTickValueString
+    private var _millisOnCountDownTimer = MutableLiveData<Long>(0)
+    val millisOnCountDownTimer: LiveData<Long>
+        get() = _millisOnCountDownTimer
 
-    fun setMinutesAndSecondNumberPicker(i: Int, n: Int) {
-        _minutesNumberPickerInt.value = i
-        _secondsNumberPickerInt.value = n
+    fun startNewCountDownTimer(long: Long) {
+        newCountDownTimerInstance(long)
+        timer.start()
     }
 
-    private var _startAtCountDown = MutableLiveData<Long>()
-    val startAtCountDown: LiveData<Long>
-        get() = _startAtCountDown
+    private var _startTimerAtLong = MutableLiveData<Long>()
+    val startTimerAtLong: LiveData<Long>
+        get() = _startTimerAtLong
 
-    fun setStartAtCountDown(long: Long) {
-        _startAtCountDown.value = long
+    fun setStartTimerAtLong(long: Long) {
+        _startTimerAtLong.value = long
     }
 
-    private var _endAtCountDown = MutableLiveData<Long>()
-    val endAtCountDown: LiveData<Long>
-        get() = _endAtCountDown
-
-    fun setEndAtCountDown(long: Long) {
-        _endAtCountDown.value = long
+    fun stopCountDownTimer() {
+        timer.cancel()
     }
 
-    private var _currentTimerState = MutableLiveData<TimerState>()
-    val currentTimerState: LiveData<TimerState>
-        get() = _currentTimerState
-
-    fun setCurrentTimerStateToReady() {
-        _currentTimerState.value = TimerState.READY
-    }
-
-    fun setCurrentTimerStateToStarted() {
-        _currentTimerState.value = TimerState.STARTED
-    }
-
-    fun setCurrentTimerStateToPause() {
-        _currentTimerState.value = TimerState.PAUSED
-    }
-
-    fun setCurrentTimerStateToResume() {
-        _currentTimerState.value = TimerState.RESUME
-    }
-
-    fun setCurrentTimerStateToFinish() {
-        _currentTimerState.value = TimerState.FINISH
-    }
-
-
-    fun startNewCountDownTimer() {
-        val numberPickValue =
-            (_secondsNumberPickerInt.value!! * 1000).toLong() + (_minutesNumberPickerInt.value!! * 60000).toLong()
-        _timerState.value!!.currentTime = numberPickValue
-        _timerState.value!!.pausedAt = numberPickValue
-        _timerState.value!!.startAt = numberPickValue
-        _currentTimerState.value = TimerState.STARTED
-        newCountDownTimerInstance(numberPickValue)
-    }
-
-    private var _onTickValueInString = MutableLiveData<String>()
-    val onTickValueInString: LiveData<String>
-        get() = _onTickValueInString
-
-    private var _onTickValueInLong = MutableLiveData<Long>()
-    val onTickValueInLong: LiveData<Long>
-        get() = _onTickValueInLong
-
-    var timer: CountDownTimer? = null
-    fun newCountDownTimerInstance(value: Long = timerState.value!!.currentTime) {
+    private fun newCountDownTimerInstance(value: Long) {
         timer = object : CountDownTimer(value, 10) {
             override fun onTick(millisUntilFinished: Long) {
-                Timber.d(millisUntilFinished.toString())
-                /*val f = DecimalFormat("00")
+                Timber.i(millisUntilFinished.toString())
+
+                onTickBoolean(true)
+                setStartTimerBoolean(true)
+
+                val f = DecimalFormat("00")
                 val minutes = (millisUntilFinished / 60000) % 60
                 val seconds = (millisUntilFinished / 1000) % 60
                 val m = DecimalFormat("000")
                 val millis = millisUntilFinished % 1000
-                val str = "${f.format(minutes)} : ${f.format(seconds)} : ${m.format(millis)}"
-                Timber.d("$str")
-                _onTickValueInString.value = str*/
-                _timerState.value?.currentTime = value
-                _onTickValueInLong.value = millisUntilFinished
+                _onTickValueString.value =
+                    "${f.format(minutes)} : ${f.format(seconds)} : ${m.format(millis)}"
+
+                _millisOnCountDownTimer.value = millisUntilFinished
+
             }
 
             override fun onFinish() {
-                Timber.d("Count Down FINISH !!!")
-                _timerState.value!!.currentTime = value
-                _currentTimerState.value = TimerState.FINISH
+                Timber.i("Count Down FINISH !!!")
+                _millisOnCountDownTimer.value = 0
+                onTickBoolean(false)
+                saveTimerToDB(
+                    _millisOnCountDownTimer.value!!,
+                    startTimerAtLong.value!!,
+                    TimerState.FINISH
+                )
             }
         }
     }
-
-    fun startTimer() {
-        timer?.start()
-    }
-
-    fun pausedTimer() {
-        timer?.cancel()
-    }
-
-    fun stopTimer() {
-        timer?.cancel()
-    }
-    */
 
 }

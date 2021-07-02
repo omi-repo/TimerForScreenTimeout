@@ -14,21 +14,14 @@
         android:padding="8dp">
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/paused_at"
-            app:layout_constraintBottom_toBottomOf="@+id/pausedAt_textview"
-            app:layout_constraintEnd_toStartOf="@+id/pausedAt_textview"
-            app:layout_constraintTop_toTopOf="@+id/pausedAt_textview" />
-
-        <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/started_at"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dateTimerAt_textview" />
 
@@ -46,23 +39,11 @@
             android:id="@+id/currentTime_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/test"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/state_textview" />
-
-        <TextView
-            android:id="@+id/pausedAt_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/test"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_textview" />
+            app:layout_constraintBottom_toBottomOf="@+id/state_textview"
+            app:layout_constraintEnd_toStartOf="@+id/state_textview"
+            app:layout_constraintTop_toTopOf="@+id/state_textview" />
 
         <TextView
             android:id="@+id/startAt_textview"
@@ -78,10 +59,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/test"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/dateTimerAt_textview" />
 
         <TextView
             android:id="@+id/id_textview"

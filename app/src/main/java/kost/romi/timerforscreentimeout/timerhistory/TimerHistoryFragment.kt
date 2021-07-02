@@ -13,6 +13,7 @@ import kost.romi.timerforscreentimeout.R
 import kost.romi.timerforscreentimeout.TimerHistoryAdapter
 import kost.romi.timerforscreentimeout.databinding.FragmentTimerHistoryBinding
 import kotlinx.android.synthetic.main.fragment_timer_history.view.*
+import timber.log.Timber
 
 /**
  * A fragment to show all the timer the User has run.
@@ -41,6 +42,7 @@ class TimerHistoryFragment : Fragment() {
         recyclerView.adapter = adapter
 
         viewModel.getAllHistory.observe(owner = viewLifecycleOwner) {
+            Timber.d("${it}")
             it.let { adapter.submitList(it) }
         }
 

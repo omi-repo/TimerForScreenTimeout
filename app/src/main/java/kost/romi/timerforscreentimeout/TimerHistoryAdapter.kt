@@ -23,7 +23,6 @@ class TimerHistoryAdapter :
             itemView.findViewById(R.id.dateTimerAt_textview)
         private val currentTime_textview: TextView =
             itemView.findViewById(R.id.currentTime_textview)
-        private val pausedAt_textview: TextView = itemView.findViewById(R.id.pausedAt_textview)
         private val startAt_textview: TextView = itemView.findViewById(R.id.startAt_textview)
         private val state_textview: TextView = itemView.findViewById(R.id.state_textview)
         private val id_textview: TextView = itemView.findViewById(R.id.id_textview)
@@ -37,7 +36,6 @@ class TimerHistoryAdapter :
                 }
                     .toString()
             timerTextViewString(timerEntity.currentTime, currentTime_textview)
-            timerTextViewString(timerEntity.pausedAt, pausedAt_textview)
             timerTextViewString(timerEntity.startAt, startAt_textview)
             state_textview.text = timerEntity.state.toString()
 //            id_textview.text = timerEntity.id.toString()
