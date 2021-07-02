@@ -104,13 +104,8 @@ class SetTimerViewModel @Inject internal constructor(
 
             override fun onFinish() {
                 Timber.i("Count Down FINISH !!!")
-                _millisOnCountDownTimer.value = 0
                 onTickBoolean(false)
-                saveTimerToDB(
-                    _millisOnCountDownTimer.value!!,
-                    startTimerAtLong.value!!,
-                    TimerState.FINISH
-                )
+                _millisOnCountDownTimer.value = 0
             }
         }
     }

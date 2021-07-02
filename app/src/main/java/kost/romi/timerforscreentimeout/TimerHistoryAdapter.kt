@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kost.romi.timerforscreentimeout.data.TimerEntity
+import kost.romi.timerforscreentimeout.data.TimerState
 import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -37,7 +38,12 @@ class TimerHistoryAdapter :
                     .toString()
             timerTextViewString(timerEntity.currentTime, currentTime_textview)
             timerTextViewString(timerEntity.startAt, startAt_textview)
-            state_textview.text = timerEntity.state.toString()
+            if (timerEntity.state == TimerState.FINISH) {
+                state_textview.text = "Finish at: "
+            }
+            if (timerEntity.state == TimerState.STOPPED) {
+                state_textview.text = "Stopped at: "
+            }
 //            id_textview.text = timerEntity.id.toString()
             id_textview.text = ""
 

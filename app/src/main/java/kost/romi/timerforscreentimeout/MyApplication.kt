@@ -17,5 +17,6 @@ class MyApplication : Application() {
         // To initialize Timber
         if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
 
+
     }
 }

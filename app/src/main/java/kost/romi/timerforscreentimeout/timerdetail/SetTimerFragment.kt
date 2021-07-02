@@ -80,7 +80,7 @@ class SetTimerFragment : Fragment() {
             if (numberPickValue > limit || numberPickValue == 0L) {
                 Toast.makeText(
                     requireContext(),
-                    "Countdown can't be more than 60 minutes\nor 0",
+                    "Countdown can't be more than\n 60 minutes or 0",
                     Toast.LENGTH_SHORT
                 ).show()
             } else {
@@ -96,6 +96,40 @@ class SetTimerFragment : Fragment() {
 
             viewModel.setStartTimerBoolean(false)
             viewModel.stopCountDownTimer()
+
+            if (viewModel.onTickBoolean.value == true) {
+                viewModel.saveTimerToDB(
+                    viewModel.millisOnCountDownTimer.value!!,
+                    viewModel.startTimerAtLong.value!!,
+                    TimerState.STOPPED
+                )
+            } else if (viewModel.onTickBoolean.value == false) {
+                binding.countdownTextview.text = "00 : 00 : 000"
+                binding.progressBar.progress = 0
+                viewModel.saveTimerToDB(
+                    viewModel.millisOnCountDownTimer.value!!,
+                    viewModel.startTimerAtLong.value!!,
+                    TimerState.FINISH
+                )
+            }
+
+            /*viewModel.onTickBoolean.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+                if (it == true) {
+                    viewModel.saveTimerToDB(
+                        viewModel.millisOnCountDownTimer.value!!,
+                        viewModel.startTimerAtLong.value!!,
+                        TimerState.STOPPED
+                    )
+                } else if (it == false) {
+                    binding.countdownTextview.text = "00 : 00 : 000"
+                    binding.progressBar.progress = 0
+                    viewModel.saveTimerToDB(
+                        viewModel.millisOnCountDownTimer.value!!,
+                        viewModel.startTimerAtLong.value!!,
+                        TimerState.FINISH
+                    )
+                }
+            })*/
 
         }
 
@@ -137,6 +171,7 @@ class SetTimerFragment : Fragment() {
                     binding.secondsNumberPickerTextView.visibility = View.VISIBLE
 
                 }
+
                 else -> null
             }
         })
@@ -144,14 +179,12 @@ class SetTimerFragment : Fragment() {
         viewModel.onTickBoolean.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             when (it) {
                 true -> {
-//                    binding.stopResetFab.visibility = View.VISIBLE
-//                    binding.startPauseFab.visibility = View.GONE
                 }
                 false -> {
                     binding.countdownTextview.text = "00 : 00 : 000"
                     binding.progressBar.progress = 0
-                    viewModel.onTickBoolean(true)
                     if (binding.screenLockSwitch.isChecked) {
+                        binding.screenLockSwitch.isChecked = false
                         lockScreenNow()
                     }
                 }
