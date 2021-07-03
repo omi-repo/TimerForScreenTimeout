@@ -7,9 +7,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.R
+import kost.romi.timerforscreentimeout.Stagger
 import kost.romi.timerforscreentimeout.TimerHistoryAdapter
 import kost.romi.timerforscreentimeout.databinding.FragmentTimerHistoryBinding
 import kotlinx.android.synthetic.main.fragment_timer_history.view.*
@@ -36,17 +39,43 @@ class TimerHistoryFragment : Fragment() {
             it.findNavController().navigateUp()
         }
 
+        setHasOptionsMenu(true)
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // This is the transition for the stagger effect.
+        val stagger = Stagger()
+
+        val list: RecyclerView = binding.recyclerView
+
         // RecyclerView
         val adapter = TimerHistoryAdapter()
         val recyclerView: RecyclerView = binding.root.recycler_view
         recyclerView.adapter = adapter
 
-        viewModel.getAllHistory.observe(owner = viewLifecycleOwner) {
-            Timber.d("${it}")
-            it.let { adapter.submitList(it) }
+        list.adapter = adapter
+
+        // We animate item additions on our side, so disable it in RecyclerView.
+        list.itemAnimator = object : DefaultItemAnimator() {
+            override fun animateAdd(holder: RecyclerView.ViewHolder?): Boolean {
+                dispatchAddFinished(holder)
+                dispatchAddStarting(holder)
+                return false
+            }
         }
 
-        setHasOptionsMenu(true)
+        viewModel.getAllHistory.observe(owner = viewLifecycleOwner) {
+            Timber.d("${it}")
+
+            it.let {
+                // Delay the stagger effect until the list is updated.
+                TransitionManager.beginDelayedTransition(list, stagger)
+                adapter.submitList(it)
+            }
+        }
 
         binding.toolbar.title = "Countdown History"
         binding.toolbar.setOnMenuItemClickListener {
@@ -65,7 +94,6 @@ class TimerHistoryFragment : Fragment() {
             }
         }
 
-        return binding.root
     }
 
 }

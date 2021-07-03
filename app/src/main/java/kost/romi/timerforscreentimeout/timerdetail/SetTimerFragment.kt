@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.R
 import kost.romi.timerforscreentimeout.data.TimerState
@@ -45,6 +46,7 @@ class SetTimerFragment : Fragment() {
                     val action =
                         SetTimerFragmentDirections.actionSetTimerFragmentToTimerHistoryFragment()
                     findNavController().navigate(action)
+
                     true
                 }
                 else -> false
