@@ -68,7 +68,7 @@ class TimerHistoryFragment : Fragment() {
         }
 
         viewModel.getAllHistory.observe(owner = viewLifecycleOwner) {
-            Timber.d("${it}")
+            Timber.d("$it")
 
             it.let {
                 // Delay the stagger effect until the list is updated.

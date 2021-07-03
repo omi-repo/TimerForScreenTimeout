@@ -19,19 +19,9 @@ import androidx.transition.TransitionValues
 // slide-up effect to it.
 class Stagger : Fade(IN) {
 
-    /**
-     * Decelerate easing.
-     *
-     * Incoming elements are animated using deceleration easing, which starts a transition at peak
-     * velocity (the fastest point of an element’s movement) and ends at rest.
-     */
-    val LINEAR_OUT_SLOW_IN: TimeInterpolator by lazy(LazyThreadSafetyMode.NONE) {
-        PathInterpolatorCompat.create(0f, 0f, 0.2f, 1f)
-    }
-
     init {
         // This duration is for a single item. See the comment below about propagation.
-        duration = 300L / 2
+        duration = LARGE_EXPAND_DURATION / 2
         interpolator = LINEAR_OUT_SLOW_IN
         propagation = SidePropagation().apply {
             setSide(Gravity.BOTTOM)

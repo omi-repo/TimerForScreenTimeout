@@ -41,7 +41,7 @@ class SetTimerViewModel @Inject internal constructor(
         }
     }
 
-    private var _startTimerBoolean = MutableLiveData<Boolean>(false)
+    private var _startTimerBoolean = MutableLiveData(false)
     val startTimerBoolean: LiveData<Boolean>
         get() = _startTimerBoolean
 
@@ -49,7 +49,7 @@ class SetTimerViewModel @Inject internal constructor(
         _startTimerBoolean.value = bool
     }
 
-    private var _onTickBoolean = MutableLiveData<Boolean>(false)
+    private var _onTickBoolean = MutableLiveData(false)
     val onTickBoolean: LiveData<Boolean>
         get() = _onTickBoolean
 
@@ -58,7 +58,7 @@ class SetTimerViewModel @Inject internal constructor(
     }
 
     private lateinit var timer: CountDownTimer
-    private var _onTickValueString = MutableLiveData<String>("")
+    private var _onTickValueString = MutableLiveData("")
     val onTickValueString: LiveData<String>
         get() = _onTickValueString
     private var _millisOnCountDownTimer = MutableLiveData<Long>(0)

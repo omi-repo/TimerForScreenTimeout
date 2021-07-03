@@ -2,22 +2,17 @@ package kost.romi.timerforscreentimeout.timerdetail
 
 import android.app.admin.DevicePolicyManager
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.transition.TransitionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.R
 import kost.romi.timerforscreentimeout.data.TimerState
 import kost.romi.timerforscreentimeout.databinding.FragmentSetTimerBinding
 import timber.log.Timber
-import java.text.DecimalFormat
-import java.util.*
 
 
 /**
@@ -69,7 +64,7 @@ class SetTimerFragment : Fragment() {
 
         subscribeUi()
 
-        binding.secondsNumberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+        binding.secondsNumberPicker.setOnValueChangedListener { picker, _, _ ->
             Timber.d("viewDataBinding!!.secondsNumberPicker.setOnValueChangedListener { picker, oldVal, newVal -> : ${picker.value}")
         }
 
@@ -106,7 +101,7 @@ class SetTimerFragment : Fragment() {
                     TimerState.STOPPED
                 )
             } else if (viewModel.onTickBoolean.value == false) {
-                binding.countdownTextview.text = "00 : 00 : 000"
+                binding.countdownTextview.text = getString(R.string.zeroed_countdown_timer)
                 binding.progressBar.progress = 0
                 viewModel.saveTimerToDB(
                     viewModel.millisOnCountDownTimer.value!!,
@@ -173,24 +168,21 @@ class SetTimerFragment : Fragment() {
                     binding.secondsNumberPickerTextView.visibility = View.VISIBLE
 
                 }
-
-                else -> null
             }
         })
 
-        viewModel.onTickBoolean.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        viewModel.onTickBoolean.observe(viewLifecycleOwner, {
             when (it) {
                 true -> {
                 }
                 false -> {
-                    binding.countdownTextview.text = "00 : 00 : 000"
+                    binding.countdownTextview.text = getString(R.string.zeroed_countdown_timer)
                     binding.progressBar.progress = 0
                     if (binding.screenLockSwitch.isChecked) {
                         binding.screenLockSwitch.isChecked = false
                         lockScreenNow()
                     }
                 }
-                else -> null
             }
         })
 
@@ -200,7 +192,7 @@ class SetTimerFragment : Fragment() {
      * A function to lock the screen.
      * For testing, sometimes it's not called.
      */
-    fun lockScreenNow() {
+    private fun lockScreenNow() {
         val policy =
             requireActivity().getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager?
         policy!!.lockNow()
