@@ -4,10 +4,14 @@ import android.app.admin.DevicePolicyManager
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.transition.Fade
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.R
 import kost.romi.timerforscreentimeout.data.TimerState
@@ -69,8 +73,6 @@ class SetTimerFragment : Fragment() {
         }
 
         binding.startFab!!.setOnClickListener {
-
-
             val limit = (60 * 60000).toLong()
             val numberPickValue =
                 (binding.secondsNumberPicker.value * 1000).toLong() + (binding.minutesNumberPicker.value * 60000).toLong()
@@ -86,19 +88,19 @@ class SetTimerFragment : Fragment() {
                 binding.progressBar.max = numberPickValue.toInt()
                 viewModel.setStartTimerAtLong(numberPickValue)
             }
-
         }
 
         binding.stopResetFab.setOnClickListener {
-
             viewModel.setStartTimerBoolean(false)
             viewModel.stopCountDownTimer()
+            viewModel.setScreenLockSwitch(binding.screenLockSwitch.isChecked)
 
             if (viewModel.onTickBoolean.value == true) {
                 viewModel.saveTimerToDB(
                     viewModel.millisOnCountDownTimer.value!!,
                     viewModel.startTimerAtLong.value!!,
-                    TimerState.STOPPED
+                    TimerState.STOPPED,
+                    viewModel.screenLockSwitch.value!!
                 )
             } else if (viewModel.onTickBoolean.value == false) {
                 binding.countdownTextview.text = getString(R.string.zeroed_countdown_timer)
@@ -106,47 +108,59 @@ class SetTimerFragment : Fragment() {
                 viewModel.saveTimerToDB(
                     viewModel.millisOnCountDownTimer.value!!,
                     viewModel.startTimerAtLong.value!!,
-                    TimerState.FINISH
+                    TimerState.FINISH,
+                    viewModel.screenLockSwitch.value!!
                 )
             }
-
-            /*viewModel.onTickBoolean.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-                if (it == true) {
-                    viewModel.saveTimerToDB(
-                        viewModel.millisOnCountDownTimer.value!!,
-                        viewModel.startTimerAtLong.value!!,
-                        TimerState.STOPPED
-                    )
-                } else if (it == false) {
-                    binding.countdownTextview.text = "00 : 00 : 000"
-                    binding.progressBar.progress = 0
-                    viewModel.saveTimerToDB(
-                        viewModel.millisOnCountDownTimer.value!!,
-                        viewModel.startTimerAtLong.value!!,
-                        TimerState.FINISH
-                    )
-                }
-            })*/
-
+            binding.screenLockSwitch.isChecked = false
         }
 
     }
+
+    /*private fun transitionToGone(
+        timerFragmentContainer: ConstraintLayout,
+        testSetTimerTextview: TextView
+    ) {
+        var transition = Fade()
+        transition.duration = 10
+        transition.addTarget(testSetTimerTextview)
+        TransitionManager.beginDelayedTransition(timerFragmentContainer, transition)
+        testSetTimerTextview.visibility = View.GONE
+    }
+
+    private fun transitionToVisible(
+        timerFragmentContainer: ConstraintLayout,
+        testSetTimerTextview: TextView
+    ) {
+        var transition = Fade()
+        transition.duration = 10
+        transition.addTarget(testSetTimerTextview)
+        TransitionManager.beginDelayedTransition(timerFragmentContainer, transition)
+        testSetTimerTextview.visibility = View.VISIBLE
+    }*/
+
+    /*private fun toggle(viewGroup: ViewGroup, view: View) {
+        val transition: Transition = Fade()
+        transition.duration = 1L
+        transition.addTarget(view)
+        TransitionManager.beginDelayedTransition(viewGroup, transition)
+        view.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }*/
 
     private fun subscribeUi() {
         viewModel.startTimerBoolean.observe(viewLifecycleOwner, {
             when (it) {
                 true -> {
 
-                    binding.testSetTimerTextview?.visibility = View.VISIBLE
+//                    toggle(binding.setTimerFragmentContainer!!, binding.testSetTimerTextview!!)
+                    binding.testSetTimerTextview!!.visibility = View.VISIBLE
 
                     binding.startFab!!.visibility = View.GONE
                     binding.stopResetFab.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.VISIBLE
                     binding.countdownTextview.visibility = View.VISIBLE
-
                     binding.countdownTextview.text = viewModel.onTickValueString.value
                     binding.progressBar.progress = viewModel.millisOnCountDownTimer.value!!.toInt()
-
                     binding.secondsNumberPicker.visibility = View.GONE
                     binding.minutesNumberPicker.visibility = View.GONE
                     binding.minutesNumberPickerTextView.visibility = View.GONE
@@ -155,13 +169,13 @@ class SetTimerFragment : Fragment() {
                 }
                 false -> {
 
-                    binding.testSetTimerTextview?.visibility = View.GONE
+//                    toggle(binding.setTimerFragmentContainer!!, binding.testSetTimerTextview!!)
+                    binding.testSetTimerTextview!!.visibility = View.GONE
 
                     binding.startFab!!.visibility = View.VISIBLE
                     binding.stopResetFab.visibility = View.GONE
                     binding.countdownTextview.visibility = View.GONE
                     binding.progressBar.visibility = View.GONE
-
                     binding.secondsNumberPicker.visibility = View.VISIBLE
                     binding.minutesNumberPicker.visibility = View.VISIBLE
                     binding.minutesNumberPickerTextView.visibility = View.VISIBLE
@@ -179,7 +193,6 @@ class SetTimerFragment : Fragment() {
                     binding.countdownTextview.text = getString(R.string.zeroed_countdown_timer)
                     binding.progressBar.progress = 0
                     if (binding.screenLockSwitch.isChecked) {
-                        binding.screenLockSwitch.isChecked = false
                         lockScreenNow()
                     }
                 }

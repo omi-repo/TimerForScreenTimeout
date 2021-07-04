@@ -12,7 +12,9 @@ class TimerEntity(
     @ColumnInfo(name = "currentTime") var currentTime: Long = 0,
     @ColumnInfo(name = "startAt") var startAt: Long = 0,
     @ColumnInfo(name = "state") var state: TimerState = TimerState.READY,
-    @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    @ColumnInfo(name = "screenLockSwitch") var screenLockSwitch: Boolean = false,
+    @ColumnInfo(name = "id")
+@PrimaryKey(autoGenerate = true)
+var id: Int = 0
 ) {
 }

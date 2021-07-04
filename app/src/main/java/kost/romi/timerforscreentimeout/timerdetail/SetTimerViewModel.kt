@@ -27,7 +27,8 @@ class SetTimerViewModel @Inject internal constructor(
     fun saveTimerToDB(
         currentTime: Long = 0,
         startTime: Long = 0,
-        state: TimerState = TimerState.READY
+        state: TimerState = TimerState.READY,
+        screenLockSwitch: Boolean = false
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             timerDataRepository.saveToDB(
@@ -35,10 +36,19 @@ class SetTimerViewModel @Inject internal constructor(
                     System.currentTimeMillis(),
                     currentTime,
                     startTime,
-                    state
+                    state,
+                    screenLockSwitch
                 )
             )
         }
+    }
+
+    private var _screenLockSwitch = MutableLiveData<Boolean>(false)
+    val screenLockSwitch: LiveData<Boolean>
+        get() = _screenLockSwitch
+
+    fun setScreenLockSwitch(bool: Boolean) {
+        _screenLockSwitch.value = bool
     }
 
     private var _startTimerBoolean = MutableLiveData(false)

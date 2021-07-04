@@ -3,7 +3,9 @@ package kost.romi.timerforscreentimeout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.TextView
+import androidx.appcompat.widget.SwitchCompat
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -28,6 +30,7 @@ class TimerHistoryAdapter :
         private val state_textview: TextView = itemView.findViewById(R.id.state_textview)
         private val id_textview: TextView = itemView.findViewById(R.id.id_textview)
         private val cardView: CardView = itemView.findViewById(R.id.cardview)
+        private val screenLock_switch: SwitchCompat = itemView.findViewById(R.id.screen_lock_switch)
 
         fun bind(timerEntity: TimerEntity) {
             dateTimerAt_textview.text =
@@ -48,6 +51,8 @@ class TimerHistoryAdapter :
             id_textview.text = ""
 
             cardView.elevation = (16).toFloat()
+
+            screenLock_switch.isChecked = timerEntity.screenLockSwitch
         }
 
         private fun timerTextViewString(long: Long, textView: TextView) {

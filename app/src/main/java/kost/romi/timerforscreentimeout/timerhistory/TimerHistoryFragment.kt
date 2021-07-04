@@ -46,6 +46,7 @@ class TimerHistoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         // This is the transition for the stagger effect.
         val stagger = Stagger()
 
