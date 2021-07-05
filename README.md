@@ -8,7 +8,7 @@ The app is a demo app for using the latest API from Jetpack in 2021 in order to 
 
 ## Images
 
-|<img src="https://github.com/omi-repo/TimerForScreenTimeout/blob/master/Screenshot_1624864277.png?raw=true" alt="1" width="200"/>|<img src="https://github.com/omi-repo/TimerForScreenTimeout/blob/master/Screenshot_1624864334.png?raw=true" alt="2" width="200"/>|<img src="https://github.com/omi-repo/TimerForScreenTimeout/blob/master/Screenshot_1624864344.png?raw=true" alt="2" width="200"/>|
+|<img src="https://raw.githubusercontent.com/omi-repo/TimerForScreenTimeout/master/device-2021-07-05-102028.png" alt="1" width="200"/>|<img src="https://raw.githubusercontent.com/omi-repo/TimerForScreenTimeout/master/device-2021-07-05-101917.png" alt="2" width="200"/>|<img src="https://raw.githubusercontent.com/omi-repo/TimerForScreenTimeout/master/device-2021-07-05-102051.png" alt="2" width="200"/>|
 
 ## Libraries Used
 
