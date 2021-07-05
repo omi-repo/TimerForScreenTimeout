@@ -117,43 +117,13 @@ class SetTimerFragment : Fragment() {
 
     }
 
-    /*private fun transitionToGone(
-        timerFragmentContainer: ConstraintLayout,
-        testSetTimerTextview: TextView
-    ) {
-        var transition = Fade()
-        transition.duration = 10
-        transition.addTarget(testSetTimerTextview)
-        TransitionManager.beginDelayedTransition(timerFragmentContainer, transition)
-        testSetTimerTextview.visibility = View.GONE
-    }
-
-    private fun transitionToVisible(
-        timerFragmentContainer: ConstraintLayout,
-        testSetTimerTextview: TextView
-    ) {
-        var transition = Fade()
-        transition.duration = 10
-        transition.addTarget(testSetTimerTextview)
-        TransitionManager.beginDelayedTransition(timerFragmentContainer, transition)
-        testSetTimerTextview.visibility = View.VISIBLE
-    }*/
-
-    /*private fun toggle(viewGroup: ViewGroup, view: View) {
-        val transition: Transition = Fade()
-        transition.duration = 1L
-        transition.addTarget(view)
-        TransitionManager.beginDelayedTransition(viewGroup, transition)
-        view.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }*/
-
     private fun subscribeUi() {
         viewModel.startTimerBoolean.observe(viewLifecycleOwner, {
             when (it) {
                 true -> {
 
 //                    toggle(binding.setTimerFragmentContainer!!, binding.testSetTimerTextview!!)
-                    binding.testSetTimerTextview!!.visibility = View.VISIBLE
+//                    binding.testSetTimerTextview!!.visibility = View.VISIBLE  // for testing
 
                     binding.startFab!!.visibility = View.GONE
                     binding.stopResetFab.visibility = View.VISIBLE
@@ -170,7 +140,7 @@ class SetTimerFragment : Fragment() {
                 false -> {
 
 //                    toggle(binding.setTimerFragmentContainer!!, binding.testSetTimerTextview!!)
-                    binding.testSetTimerTextview!!.visibility = View.GONE
+//                    binding.testSetTimerTextview!!.visibility = View.GONE  // for testing
 
                     binding.startFab!!.visibility = View.VISIBLE
                     binding.stopResetFab.visibility = View.GONE

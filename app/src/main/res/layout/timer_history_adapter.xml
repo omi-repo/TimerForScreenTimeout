@@ -19,9 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:text="@string/started_at"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dateTimerAt_textview" />
 
@@ -39,11 +37,11 @@
             android:id="@+id/currentTime_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/test"
-            app:layout_constraintBottom_toBottomOf="@+id/state_textview"
-            app:layout_constraintEnd_toStartOf="@+id/state_textview"
-            app:layout_constraintTop_toTopOf="@+id/state_textview" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/id_textview" />
 
         <TextView
             android:id="@+id/startAt_textview"
@@ -58,13 +56,10 @@
             android:id="@+id/state_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
             android:text="@string/test"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dateTimerAt_textview" />
+            app:layout_constraintBottom_toBottomOf="@+id/currentTime_textview"
+            app:layout_constraintEnd_toStartOf="@+id/currentTime_textview"
+            app:layout_constraintTop_toTopOf="@+id/currentTime_textview" />
 
         <TextView
             android:id="@+id/id_textview"
@@ -80,7 +75,9 @@
             android:id="@+id/screen_lock_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:clickable="false"
             android:text="@string/screen_lock"
             android:textColor="@color/dark_grey"
             app:layout_constraintBottom_toBottomOf="parent"

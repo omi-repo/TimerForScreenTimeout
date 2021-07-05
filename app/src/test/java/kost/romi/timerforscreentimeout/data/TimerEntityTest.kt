@@ -11,7 +11,8 @@ class TimerEntityTest {
 
     @Before
     fun setUp() {
-        timerEntity = TimerEntity(System.currentTimeMillis(), 1000, 500, 1000, TimerState.STARTED)
+        timerEntity =
+            TimerEntity(System.currentTimeMillis(), 1000, 500, TimerState.STARTED, true)
     }
 
     @Test
