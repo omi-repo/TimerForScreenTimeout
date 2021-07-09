@@ -16,7 +16,6 @@ import org.junit.Before
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  *
- * TODO: do test DB.
  */
 class ExampleUnitTest {
     @Test

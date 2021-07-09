@@ -20,6 +20,12 @@ interface TimerDAO {
     suspend fun insertTimerToHistory(timerEntity: TimerEntity)
 
     /**
+     * Insert an array or TimerDao for testing.
+     */
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllTimerToHistoryTest(timerEntity: List<TimerEntity>)
+
+    /**
      * Delete everything in table.
      */
     @Query("DELETE FROM $DATABASE_NAME")
