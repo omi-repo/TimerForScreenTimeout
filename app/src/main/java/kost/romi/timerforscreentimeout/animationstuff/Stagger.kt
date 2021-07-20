@@ -1,16 +1,16 @@
-package kost.romi.timerforscreentimeout
+package kost.romi.timerforscreentimeout.animationstuff
 
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.animation.TimeInterpolator
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.animation.PathInterpolatorCompat
 import androidx.transition.Fade
 import androidx.transition.SidePropagation
 import androidx.transition.TransitionValues
+import kost.romi.timerforscreentimeout.LARGE_EXPAND_DURATION
+import kost.romi.timerforscreentimeout.LINEAR_OUT_SLOW_IN
 
 /**
  * Transition for stagger effect.

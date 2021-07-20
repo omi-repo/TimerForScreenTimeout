@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import dagger.hilt.android.AndroidEntryPoint
 import kost.romi.timerforscreentimeout.R
-import kost.romi.timerforscreentimeout.Stagger
+import kost.romi.timerforscreentimeout.animationstuff.Stagger
 import kost.romi.timerforscreentimeout.TimerHistoryAdapter
 import kost.romi.timerforscreentimeout.databinding.FragmentTimerHistoryBinding
 import kotlinx.android.synthetic.main.fragment_timer_history.view.*
